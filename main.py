@@ -36,7 +36,8 @@ def train():
         learning_rate=args.learning_rate,
         per_device_train_batch_size=args.batch_size,
         warmup_ratio=0.1,
-        save_strategy='epoch' if args.save_model else 'no'
+        save_strategy='epoch' if args.save_model else 'no',
+        logging_steps=25
     )
 
     trainer = Trainer(
