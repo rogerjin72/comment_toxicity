@@ -57,6 +57,8 @@ class BertForRanking(BertPreTrainedModel):
         logits = F.log_softmax(outputs, dim=-1)
         
         if values is not None:
+            print(values)
+            print(type(values))
             prob = np.array([values])
             prob = np.concatenate([1-prob, prob]).T
             prob = torch.Tensor(prob)
