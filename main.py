@@ -64,7 +64,7 @@ def predict():
     test = pd.read_csv('data/comments_to_score.csv')
     test_set = RankingDataset(test['text'])
 
-    for i in range(len(test_set)):
+    for i in range(len(test)):
         print(model(**test_set[i]))
         break
 
