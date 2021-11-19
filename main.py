@@ -67,7 +67,7 @@ def predict():
 
     scores = []
 
-    for i in range(len(test)):
+    for i in tqdm(range(len(test))):
         score = model(**{k: v.to(device) for k, v in test_set[[i]]})
         score = score[0, 0].cpu().detach().numpy()
         scores.append(score)
