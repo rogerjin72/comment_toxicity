@@ -78,7 +78,7 @@ def arg_parser():
     )
     parser.add_argument(
         '--save_dir',
-        type='str',
+        type=str,
         help='directory to save the model',
         default='trained_model'
     )
