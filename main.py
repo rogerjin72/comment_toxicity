@@ -30,6 +30,23 @@ def train():
 
         torch.save(train_set, 'cache/dataset.pt')
 
+    training_args = TrainingArguments(
+        output_dir=args.save_dir,
+        num_train_epochs=args.num_epochs,
+        learning_rate=args.learning_rate,
+        per_device_train_batch_size=args.batch_size,
+        warmup_ratio=0.1,
+        save_strategy='epoch' if args.save_model else 'no'
+    )
+
+    trainer = Trainer(
+        model=model,
+        args=training_args,
+        train_dataset=train_set
+    )
+
+    trainer.train()
+    
 
 def arg_parser():
     parser = argparse.ArgumentParser(
