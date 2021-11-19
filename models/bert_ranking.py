@@ -61,6 +61,7 @@ class BertForRanking(BertPreTrainedModel):
                 prob = np.array([values])
             except TypeError:
                 prob = values.cpu().numpy()
+                prob = prob.reshape(1, len(prob))
                 print(prob.shape)
 
             prob = np.concatenate([1-prob, prob]).T
