@@ -57,11 +57,12 @@ class BertForRanking(BertPreTrainedModel):
         logits = F.log_softmax(outputs, dim=-1)
         
         if values is not None:
-            print(values)
-            print(values.type)
-            if isinstance(values, torch.Tensor):
+            try:
+                prob = np.array([values])
+            except TypeError:
                 prob = values.cpu().numpy()
-            prob = np.array([values])
+                print(prob.shape)
+
             prob = np.concatenate([1-prob, prob]).T
             prob = torch.Tensor(prob)
 
