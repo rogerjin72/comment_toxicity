@@ -3,6 +3,7 @@ import numpy as np
 import torch.nn.functional as F
 
 from torch import nn
+from main import device
 from torch.nn import KLDivLoss
 from transformers import BertPreTrainedModel, BertModel
 
@@ -66,6 +67,7 @@ class BertForRanking(BertPreTrainedModel):
 
             prob = np.concatenate([1-prob, prob]).T
             prob = torch.Tensor(prob)
+            prob = prob.to(device)
 
             f = KLDivLoss()
             loss = f(logits, prob)

@@ -46,7 +46,7 @@ def train():
     )
 
     trainer.train()
-    
+
 
 def arg_parser():
     parser = argparse.ArgumentParser(
@@ -105,6 +105,8 @@ def arg_parser():
 
 parser = arg_parser()
 args, _ = parser.parse_known_args()
+
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 if __name__ == '__main__':
     train()
