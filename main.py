@@ -65,9 +65,16 @@ def predict():
     first = tokenizer(test['text'].to_list(), return_tensors='pt', truncation=True, padding=True)
     test_set = RankingDataset(first)
 
+    scores = []
+
     for i in range(len(test)):
-        print(model(**test_set[i]))
-        break
+        score = model(**{k: v.to(device) for k, v in test_set[[i]]})
+        score = score[0, 0].cpu().detach().numpy()
+        scores.append(score)
+
+    test['score'] = scores
+    test[['comment_id', 'score']].to_csv('processed_data/scored.csv', index=False)
+
 
 
 def arg_parser():
