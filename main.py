@@ -11,10 +11,18 @@ from transformers import (
     TrainingArguments
 )
 
-def train():
+def load_model(finetuned=None):
     base_model = args.from_pretrained
     tokenizer = BertTokenizer.from_pretrained(base_model, model_max_length=args.sequence_length)
-    model = BertForRanking.from_pretrained(base_model)
+    if not finetuned:
+        model = BertForRanking.from_pretrained(base_model)
+    else:
+        model = BertForRanking.from_pretrained(finetuned)
+    return tokenizer, model
+
+
+def train():
+    tokenizer, model = load_model()
 
     try:
         train_set = torch.load('cache/dataset.pt')
@@ -49,9 +57,39 @@ def train():
     trainer.train()
 
 
+def predict():
+    tokenizer, model = load_model(args.prediction_model)
+    model = model.to_device()
+
+    test = pd.read_csv('data/validation_data.csv')
+    test_set = RankingDataset(test['text'])
+
+    for i in range(len(test_set)):
+        print(model(**test_set[i]))
+        break
+
+
 def arg_parser():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+
+    parser.add_argument(
+        '--train',
+        type=int,
+        default=1
+    )
+
+    parser.add_argument(
+        '--predict',
+        type=int,
+        default=1
+    )
+
+    parser.add_argument(
+        '--prediction_model',
+        type='str',
+        default='trained_model/checkpoint-474'
     )
 
     parser.add_argument(
@@ -110,4 +148,7 @@ args, _ = parser.parse_known_args()
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 if __name__ == '__main__':
-    train()
+    if args.train:
+        train()
+    if args.predict:
+        pass

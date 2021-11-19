@@ -2,7 +2,7 @@ import torch
 
 
 class RankingDataset(torch.utils.data.Dataset):
-    def __init__(self, first, second, values):
+    def __init__(self, first, second=None, values=None):
         self.first = first
         self.second = second
         self.values = values
