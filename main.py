@@ -88,7 +88,7 @@ def arg_parser():
 
     parser.add_argument(
         '--prediction_model',
-        type='str',
+        type=str,
         default='trained_model/checkpoint-474'
     )
 
