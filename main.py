@@ -3,6 +3,7 @@ import torch
 import pandas as pd
 import argparse
 
+from tqdm import tqdm
 from models.bert_ranking import BertForRanking
 from models.dataset import RankingDataset
 from transformers import (
