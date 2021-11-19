@@ -3,7 +3,6 @@ import numpy as np
 import torch.nn.functional as F
 
 from torch import nn
-from main import device
 from torch.nn import KLDivLoss
 from transformers import BertPreTrainedModel, BertModel
 
@@ -73,3 +72,6 @@ class BertForRanking(BertPreTrainedModel):
             loss = f(logits, prob)
 
         return loss, outputs
+
+
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
