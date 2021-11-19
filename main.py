@@ -59,7 +59,7 @@ def train():
 
 def predict():
     tokenizer, model = load_model(args.prediction_model)
-    model = model.to_device()
+    model = model.to(device)
 
     test = pd.read_csv('data/validation_data.csv')
     test_set = RankingDataset(test['text'])
