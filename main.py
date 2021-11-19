@@ -62,7 +62,8 @@ def predict():
     model = model.to(device)
 
     test = pd.read_csv('data/comments_to_score.csv')
-    test_set = RankingDataset(test['text'])
+    first = tokenizer(test['text'].to_list(), return_tensors='pt', truncation=True, padding=True)
+    test_set = RankingDataset(first)
 
     for i in range(len(test)):
         print(model(**test_set[i]))
